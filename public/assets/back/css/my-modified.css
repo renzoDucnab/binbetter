@@ -187,7 +187,10 @@
 #dynamic-lgu-table_info,
 #dynamic-ngo-table_info,
 #dynamic-resident-table_info, 
-#dynamic-service-table_info{
+#dynamic-service-table_info, 
+#dynamic-subscription-table_info,
+#dynamic-postreport-table_info
+{
     margin: 25px 25px 25px 35px;
 }
 

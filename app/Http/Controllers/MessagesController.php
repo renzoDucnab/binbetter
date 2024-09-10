@@ -32,11 +32,12 @@ class MessagesController extends Controller
     {
         $user = User::getCurrentUser();
 
-        if ($user->role === 'Superadmin') {
+        if (in_array($user->role, ['LGU', 'NGO', 'Resident'])) {
 
 
             // Fetch all non-Superadmin users with their latest message and timestamp
             $chatlists = User::where('role', '<>', 'Superadmin') // Exclude Superadmin from the list
+                ->where('users.id', '<>', $user->id) // Exclude the logged-in user from the list
                 ->leftJoin('messages', function ($join) {
                     $join->on('users.id', '=', 'messages.recipient_id')
                         ->orOn('users.id', '=', 'messages.sender_id');
@@ -105,10 +106,10 @@ class MessagesController extends Controller
         // Fetch messages where sender_id or recipient_id matches
         $messages = Message::where(function ($query) use ($userId, $chatId) {
             $query->where('sender_id', $userId)
-                  ->where('recipient_id', $chatId);
+                ->where('recipient_id', $chatId);
         })->orWhere(function ($query) use ($userId, $chatId) {
             $query->where('sender_id', $chatId)
-                  ->where('recipient_id', $userId);
+                ->where('recipient_id', $userId);
         })->get();
 
         return response()->json(['messages' => $messages]);

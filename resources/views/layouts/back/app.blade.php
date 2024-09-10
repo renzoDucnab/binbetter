@@ -140,17 +140,16 @@
             if (typeof tinymce !== 'undefined') {
                 // Initialize TinyMCE for general textareas
                 tinymce.init({
-                    selector: 'textarea#description, textarea#wcu_description',
+                    selector: 'textarea#description, textarea#re_description',
                     plugins: 'lists advlist', // Add advlist for advanced list options
                     toolbar: 'undo redo | formatselect | bold italic | bullist numlist outdent indent | alignleft aligncenter alignright alignjustify',
                     menubar: false
                 });
 
-                // Initialize TinyMCE for textarea#faq_answer with only numlist
                 tinymce.init({
-                    selector: 'textarea#faq_answer',
+                    selector: 'textarea#subscription_description',
                     plugins: 'lists',
-                    toolbar: 'numlist',
+                    toolbar: 'bullist', 
                     menubar: false
                 });
             } else {

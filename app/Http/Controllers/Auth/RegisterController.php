@@ -9,6 +9,8 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Rules\NoSpecialCharacters;
+use Illuminate\Support\Facades\File;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -51,9 +53,22 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
+            'municipality' => ['required'],
+            'barangay' => ['required'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
             'username' => ['required', 'string', 'max:255', 'unique:users', new NoSpecialCharacters],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password' => [
+                'required',
+                'string',
+                'min:8',
+                'confirmed',
+                'regex:/[a-z]/',
+                'regex:/[A-Z]/',
+                'regex:/[0-9]/',
+                'regex:/[@$!%*?&]/',
+            ],
+
         ]);
     }
 
@@ -67,15 +82,30 @@ class RegisterController extends Controller
     {
         return User::create([
             'username' => $data['username'],
+            'address' =>  'CEBU CITY, ' . $data['barangay'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
     }
 
     public function showRegistrationForm()
-    {   
+    {
         $page = 'Sign Up';
 
         return view('auth.register', compact('page'));
     }
+
+    public function getMunicipalities()
+    {
+        // Load the JSON file
+        $json = File::get(public_path('assets/back/cebu-city.json'));
+        $data = json_decode($json, true);
+
+        // Extract the municipalities
+        $municipalities = array_keys($data['CEBU']['municipality_list']);
+
+        return response()->json(['municipalities' => $municipalities]);
+    }
+
+  
 }

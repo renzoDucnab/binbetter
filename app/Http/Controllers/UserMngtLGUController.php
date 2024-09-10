@@ -28,8 +28,11 @@ class UserMngtLGUController extends Controller
      */
     public function create()
     {
-        $lgu = User::where('role', 'LGU')->get();
+        $lgu = User::where('role', 'LGU')
+        ->whereNull('deleted_at')
+        ->get();
 
+    
         $formattedData = $lgu->map(function ($item) {
             return [
                 'profile' => $item->profile,

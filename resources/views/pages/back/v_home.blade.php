@@ -12,6 +12,12 @@
                         <h3 class="mb-0  text-white">
                             @if(Auth::user()->role === 'Superadmin')
                             Hello! Superadmin
+                            @elseif(Auth::user()->role === 'LGU')
+                            Hello! LGU's
+                            @elseif(Auth::user()->role === 'NGO')
+                            Hello! NGO's
+                            @elseif(Auth::user()->role === 'Resident')
+                            Hello! Resident's
                             @endif
                         </h3>
                     </div>

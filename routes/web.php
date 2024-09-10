@@ -15,10 +15,10 @@ use Illuminate\Support\Facades\DB;
 |
 */
 
-Route::get('/', function () {
-    return view('pages.front.welcome');
-});
 
+Route::get('/', [App\Http\Controllers\GuestController::class, 'welcome']);
+Route::get('/get-municipalities', [App\Http\Controllers\Auth\RegisterController::class, 'getMunicipalities']);
+Route::get('/get-barangays', [App\Http\Controllers\GuestController::class, 'getBarangays']);
 
 Auth::routes(['verify' => true]);
 
@@ -45,6 +45,8 @@ Route::middleware(['prevent-back-history', 'auth', 'verified'])->group(function 
     Route::resource('ngo', App\Http\Controllers\UserMngtNGOController::class);
     Route::resource('resident', App\Http\Controllers\UserMngtResidentController::class);
     Route::resource('service', App\Http\Controllers\ServiceController::class);
+    Route::resource('subscription', App\Http\Controllers\SubscriptionController::class);
+    Route::resource('postreport', App\Http\Controllers\PostReportController::class);
  
 });
 

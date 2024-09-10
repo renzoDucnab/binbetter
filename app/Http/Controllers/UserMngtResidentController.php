@@ -28,7 +28,9 @@ class UserMngtResidentController extends Controller
      */
     public function create()
     {
-        $resident = User::where('role', 'Resident')->get();
+        $resident = User::where('role', 'Resident')
+        ->whereNull('deleted_at')
+        ->get();
 
         $formattedData = $resident->map(function ($item) {
             return [

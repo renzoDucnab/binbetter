@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Service;
+use App\Models\Subscription;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class ServiceController extends Controller
+class SubscriptionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +15,8 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        $page = "Services";
-        return view('pages.back.v_service', compact('page'));
+        $page = "Subscriptions";
+        return view('pages.back.v_subscription', compact('page'));
     }
 
     /**
@@ -26,19 +26,17 @@ class ServiceController extends Controller
      */
     public function create()
     {
-        $services = Service::whereNull('deleted_at')->get();
+        $subscriptions = Subscription::whereNull('deleted_at')->get();
 
-        $formattedData = $services->map(function ($item) {
+        $formattedData = $subscriptions->map(function ($item) {
             return [
-                'service' => $item->service_type,
-                'points' => $item->service_points,
-                'description' => $item->description,
+                'type' => $item->subscription_type,
+                'description' => $item->subscription_desc,
                 'actions' =>
-                    '<a class="edit-btn" href="javascript:void(0)" 
+                '<a class="edit-btn" href="javascript:void(0)" 
                         data-id="' . $item->id . '"
-                        data-service="' . $item->service_type . '"
-                        data-points="' . $item->service_points . '"
-                        data-description="' . $item->description . '"
+                        data-type="' . $item->subscription_type . '"
+                        data-description="' . $item->subscription_desc . '"
                         data-modaltitle="Edit">
                     <i class="bi bi-pencil-square fs-3"></i>
                     </a>
@@ -46,7 +44,7 @@ class ServiceController extends Controller
                     <a class="delete-btn" href="javascript:void(0)" data-id="' . $item->id . '">
                     <i class="bi bi-trash fs-3"></i>
                     </a>'
-                ];
+            ];
         });
 
         return response()->json(['data' => $formattedData]);
@@ -62,19 +60,17 @@ class ServiceController extends Controller
     {
         // Validate incoming request data
         $request->validate([
-            'service' => 'required|string',
-            'points' => 'required|integer',
-            'description' => 'required'
+            'subscription_type' => 'required|string',
+            'subscription_description' => 'required'
         ]);
 
-        Service::create([
-            'service_type' => $request->service,
-            'service_points' => $request->points,
-            'description' => $request->description,
+        Subscription::create([
+            'subscription_type' => $request->subscription_type,
+            'subscription_desc' => $request->subscription_description,
         ]);
 
         return response()->json([
-            'message' => 'Service saved successfully',
+            'message' => 'Subscription saved successfully',
             'type' => 'success'
         ]);
     }
@@ -87,27 +83,27 @@ class ServiceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-        $service = Service::find($id);
+    {   
 
-        if (!$service) {
-            return response()->json(['error' => 'Service not found'], 404);
+        $subscription = Subscription::find($id);
+
+        if (!$subscription) {
+            return response()->json(['error' => 'Subscription not found'], 404);
         }
 
         // Validate incoming request data
         $request->validate([
-            'service' => 'required|string',
-            'points' => 'required|integer',
-            'description' => 'required',
+            'subscription_type' => 'required|string',
+            'subscription_description' => 'required'
         ]);
 
-        $service->update([
-            'service_type' => $request->service,
-            'service_points' => $request->points,
-            'description' => $request->description,
+        $subscription->update([
+            'subscription_type' => $request->subscription_type,
+            'subscription_desc' => $request->subscription_description,
         ]);
 
-        return response()->json(['message' => 'Service updated successfully', 'type' => 'success']);
+        return response()->json(['message' => 'Subscription updated successfully', 'type' => 'success']);
+
     }
 
     /**
@@ -118,10 +114,9 @@ class ServiceController extends Controller
      */
     public function destroy($id)
     {
-        
-        $service = Service::find($id);
-        $service->delete();
+        $subscription = Subscription::find($id);
+        $subscription->delete();
 
-        return response()->json(['message' => 'Service deleted successfully', 'type' => 'success']);
+        return response()->json(['message' => 'Subscription deleted successfully', 'type' => 'success']);
     }
 }

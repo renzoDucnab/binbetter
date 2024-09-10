@@ -5,7 +5,8 @@
     <div class="bg-light pt-12 pb-21 "></div>
     <div class="container-fluid mt-n22 ">
 
-
+        @if(Auth::check())
+        @if(Auth::user()->role === 'Superadmin')
         <div class="row mb-8">
             <div class="col-xl-3 col-lg-4 col-md-12 col-12">
                 <div class="mb-4 mb-lg-0">
@@ -71,6 +72,8 @@
                 </div>
             </div>
         </div>
+        @endif
+        @endif
 
 
         <div class="row mb-8">
@@ -87,7 +90,7 @@
                     <!-- card body -->
                     <div class="card-body">
 
-                    <form class="mb-5" id="profile" enctype="multipart/form-data">
+                        <form class="mb-5" id="profile" enctype="multipart/form-data">
                             <!-- row -->
                             <div class="mb-3 row">
                                 <label for="account_profile" class="col-sm-4 col-form-label form-label">Avatar</label>
@@ -123,6 +126,12 @@
                                 <div class="col-md-8 col-12 mb-3">
                                     <input type="text" class="form-control" placeholder="Enter your username" id="account_username" name="account_username">
                                     <span class="invalid-feedback d-block" role="alert" id="account_username_error"></span>
+                                </div>
+
+                                <label for="account_address" class="col-sm-4 col-form-label form-label">Address</label>
+                                <div class="col-md-8 col-12 mb-3">
+                                    <input type="text" class="form-control" placeholder="Enter your address" id="account_address" name="account_address" value="{{ Auth::check() ?  Auth::user()->address : ''  }}" disabled>
+                                    <span class="invalid-feedback d-block" role="alert" id="account_address_error"></span>
                                 </div>
 
                                 <!-- label -->

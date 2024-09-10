@@ -42,3 +42,19 @@ function clearInput(){
     $('.form-control').val('');
     tinymce.get('description').setContent('');
 }
+
+$.ajax({
+    url: '/get-barangays',
+    method: 'GET',
+    data: { municipality: 'CEBU CITY' },
+    success: function (response) {
+        var barangayDropdown = $('#address');
+        barangayDropdown.empty().append('<option value="">Select Barangay</option>');
+        $.each(response.barangays, function (index, barangay) {
+            barangayDropdown.append('<option value="' + barangay + '">' + barangay + '</option>');
+        });
+    },
+    error: function (response) {
+        console.log('Error:', response);
+    }
+});

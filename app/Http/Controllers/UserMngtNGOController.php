@@ -28,7 +28,9 @@ class UserMngtNGOController extends Controller
      */
     public function create()
     {
-        $ngo = User::where('role', 'NGO')->get();
+        $ngo = User::where('role', 'NGO')
+        ->whereNull('deleted_at')
+        ->get();
 
         $formattedData = $ngo->map(function ($item) {
             return [

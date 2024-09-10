@@ -20,14 +20,14 @@
                         <a class="nav-link" href="{{ route('home') }}" data-bs-display="static">Dashboard</a>
                     </li>
 
-                    <li class="nav-item dropdown">
+                    <!-- <li class="nav-item dropdown">
                         <a class="nav-link" href="{{ route('message.index') }}" data-bs-display="static">Messages</a>
-                    </li>
+                    </li> -->
 
                     <li class="nav-item dropdown">
                         <a class="nav-link" href="{{ route('service.index') }}" data-bs-display="static">Services</a>
                     </li>
-                    
+
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarSettings" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-display="static">User Management</a>
                         <ul class="dropdown-menu dropdown-menu-arrow" aria-labelledby="navbarSettings">
@@ -44,8 +44,23 @@
                         <ul class="dropdown-menu dropdown-menu-arrow" aria-labelledby="navbarSettings">
                             <li>
                                 <a class="dropdown-item" href="{{ route('generalsettings') }}">General Settings</a>
+                                <a class="dropdown-item" href="{{ route('subscription.index') }}">Subscription Settings</a>
                             </li>
                         </ul>
+                    </li>
+                    @else
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="{{ route('home') }}" data-bs-display="static">Dashboard</a>
+                    </li>
+                    @if(Auth::user()->role === 'Resident')
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="{{ route('postreport.index') }}" data-bs-display="static">Post Report</a>
+                    </li>
+                    @endif
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="{{ route('message.index') }}" data-bs-display="static">Messages</a>
                     </li>
 
                     @endif

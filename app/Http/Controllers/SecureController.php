@@ -23,6 +23,8 @@ class SecureController extends Controller
             'ngo' => resource_path('function/ngo.js'),
             'resident' => resource_path('function/resident.js'),
             'service' => resource_path('function/service.js'),
+            'subscription' => resource_path('function/subscription.js'),
+            'postreport' => resource_path('function/postreport.js'),
         ];
 
         if (!array_key_exists($filename, $jsFiles) || !file_exists($jsFiles[$filename])) {

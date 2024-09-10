@@ -32,6 +32,15 @@
                         <input type="text" id="username" class="form-control" name="username" placeholder="User Name" value="{{ old('username') }}" autocomplete="username" autofocus />
                         <span class="invalid-feedback d-block" role="alert" id="username_error"></span>
                     </div>
+
+                    <div class="mb-3">
+                        <label for="barangay" class="form-label">Cebu City Barangay</label>
+                        <select id="barangay" name="barangay" class="form-control">
+                            <option value="">Select Barangay</option>
+                        </select>
+                        <span class="invalid-feedback d-block" role="alert" id="barangay_error"></span>
+                    </div>
+
                     <!-- Email -->
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
